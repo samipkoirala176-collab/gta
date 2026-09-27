@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Andreas — Streets, Sun, Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt: #16130f;
+    --asphalt-2: #1f1b15;
+    --cream: #f3e9d8;
+    --sunset-1: #ff7a3d;
+    --sunset-2: #e94f8c;
+    --sunset-3: #5c2a6b;
+    --grove: #5fa052;
+    --grove-dark: #2f5a2a;
+    --dust: #c9b89a;
+    --line: rgba(243,233,216,0.14);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--asphalt);
+    color:var(--cream);
+    font-family:'Barlow', sans-serif;
+    line-height:1.6;
+  }
+  h1,h2,h3,.display{
+    font-family:'Bungee', system-ui, sans-serif;
+    letter-spacing:0.5px;
+    line-height:1.05;
+    margin:0;
+  }
+  .eyebrow{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:600;
+    color:var(--dust);
+  }
+  a{color:inherit;}
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+  section{padding:96px 0;}
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(22,19,15,0.86);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:16px; padding-bottom:16px;
+  }
+  .brand{
+    font-family:'Bungee', sans-serif;
+    font-size:1.1rem;
+    color:var(--cream);
+  }
+  .brand span{color:var(--sunset-1);}
+  .navlinks{display:flex; gap:28px; font-family:'Barlow Condensed', sans-serif; font-size:1.05rem; font-weight:600;}
+  .navlinks a{text-decoration:none; color:var(--dust); transition:color .2s;}
+  .navlinks a:hover{color:var(--sunset-1);}
+  @media (max-width:640px){ .navlinks{display:none;} }
+
+  /* HERO */
+  .hero{
+    position:relative;
+    min-height:88vh;
+    display:flex; align-items:flex-end;
+    overflow:hidden;
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgba(255,122,61,0.35), transparent 60%),
+      linear-gradient(180deg, #7a2f6b 0%, #b3436a 32%, #ff7a3d 58%, #2a1810 100%);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image: radial-gradient(2px 2px at 20% 15%, rgba(255,255,255,.7), transparent),
+                       radial-gradient(1.5px 1.5px at 70% 8%, rgba(255,255,255,.5), transparent),
+                       radial-gradient(1.5px 1.5px at 85% 20%, rgba(255,255,255,.6), transparent),
+                       radial-gradient(2px 2px at 40% 5%, rgba(255,255,255,.4), transparent);
+    opacity:.6;
+  }
+  .sun{
+    position:absolute; left:50%; top:18%;
+    width:260px; height:260px;
+    transform:translateX(-50%);
+    background:radial-gradient(circle, #ffe9b0 0%, #ffb26b 45%, rgba(255,178,107,0) 70%);
+    border-radius:50%;
+    filter:blur(1px);
+  }
+  .skyline{
+    position:absolute; bottom:0; left:0; width:100%;
+    height:38%;
+    background-repeat:repeat-x;
+  }
+  .palms{
+    position:absolute; bottom:0; left:0; width:100%; height:100%;
+    pointer-events:none;
+  }
+  .hero-content{
+    position:relative; z-index:2;
+    width:100%;
+    padding-bottom:64px;
+  }
+  .hero .eyebrow{color:#ffe4c2; font-size:1.1rem; text-transform:none;}
+  .hero h1{
+    font-size:clamp(3rem, 10vw, 7rem);
+    color:#fff8ec;
+    text-shadow:0 6px 0 rgba(0,0,0,0.25);
+  }
+  .hero h1 .accent{color:var(--asphalt); -webkit-text-stroke:2px #fff8ec;}
+  .hero p.sub{
+    max-width:560px;
+    font-size:1.15rem;
+    color:#fff2df;
+    margin-top:18px;
+  }
+  .hero-meta{
+    display:flex; gap:32px; margin-top:36px; flex-wrap:wrap;
+    font-family:'Barlow Condensed', sans-serif;
+  }
+  .hero-meta div{border-left:3px solid rgba(255,255,255,.5); padding-left:12px;}
+  .hero-meta .num{font-size:1.6rem; font-weight:700; display:block;}
+  .hero-meta .lbl{font-size:0.95rem; color:#ffe4c2;}
+
+  /* INTRO STRIP */
+  .strip{
+    background:var(--grove-dark);
+    border-top:1px solid rgba(0,0,0,.3);
+    border-bottom:1px solid rgba(0,0,0,.3);
+    padding:20px 0;
+    overflow:hidden;
+    white-space:nowrap;
+  }
+  .strip .track{
+    display:inline-block;
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:600;
+    font-size:1.05rem;
+    letter-spacing:1px;
+    color:#dff3d6;
+  }
+  .strip .track span{margin:0 22px; color:#a7d69a;}
+
+  /* SECTION HEADERS */
+  .sec-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    gap:24px; margin-bottom:44px; flex-wrap:wrap;
+    border-bottom:1px solid var(--line);
+    padding-bottom:20px;
+  }
+  .sec-head h2{font-size:clamp(2rem,4vw,2.8rem);}
+  .sec-head p{max-width:380px; color:var(--dust); margin:0; font-size:1rem;}
+
+  /* STORY */
+  .story-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0;
+  }
+  .story-row{
+    display:grid;
+    grid-template-columns:80px 1fr;
+    gap:24px;
+    padding:28px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .story-row:last-child{border-bottom:none;}
+  .story-row .yr{
+    font-family:'Bungee', sans-serif;
+    color:var(--sunset-1);
+    font-size:1.1rem;
+  }
+  .story-row h3{font-size:1.4rem; margin-bottom:8px; color:var(--cream);}
+  .story-row p{color:var(--dust); margin:0; max-width:640px;}
+
+  /* CITIES */
+  .cities{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:2px;
+    background:var(--line);
+  }
+  @media (max-width:800px){ .cities{grid-template-columns:1fr;} }
+  .city{
+    background:var(--asphalt-2);
+    padding:36px 28px;
+    position:relative;
+    overflow:hidden;
+  }
+  .city::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:0; height:4px;
+    background:var(--city-color, var(--sunset-1));
+  }
+  .city h3{font-size:1.6rem; margin-bottom:6px;}
+  .city .tag{font-family:'Barlow Condensed', sans-serif; color:var(--dust); font-size:1rem; margin-bottom:16px; display:block;}
+  .city p{color:var(--dust); font-size:0.98rem;}
+
+  /* CHARACTERS */
+  .cast{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:1px;
+    background:var(--line);
+  }
+  @media (max-width:700px){ .cast{grid-template-columns:1fr;} }
+  .card{
+    background:var(--asphalt-2);
+    padding:32px;
+  }
+  .card .role{
+    font-family:'Barlow Condensed', sans-serif;
+    color:var(--grove);
+    font-weight:600;
+    font-size:0.95rem;
+    display:block;
+    margin-bottom:6px;
+  }
+  .card h3{font-size:1.5rem; margin-bottom:10px;}
+  .card p{color:var(--dust); font-size:0.98rem; margin:0;}
+
+  /* TIMELINE ACTS */
+  .acts{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+  .act{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:28px;
+    padding:32px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .act:first-child{padding-top:0;}
+  .act:last-child{border-bottom:none;}
+  .act .tag{
+    font-family:'Bungee', sans-serif;
+    font-size:0.85rem;
+    color:var(--asphalt);
+    background:var(--sunset-1);
+    padding:6px 10px;
+    border-radius:2px;
+    height:fit-content;
+    text-align:center;
+  }
+  .act h3{font-size:1.4rem; margin-bottom:8px;}
+  .act p{color:var(--dust); margin:0; max-width:640px;}
+
+  /* CULTURE STRIP */
+  .culture{
+    background:linear-gradient(180deg, var(--asphalt-2), var(--asphalt));
+  }
+  .culture-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:32px;
+    margin-top:36px;
+  }
+  @media (max-width:760px){ .culture-grid{grid-template-columns:1fr;} }
+  .culture-grid div h4{
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:1.15rem;
+    font-weight:700;
+    color:var(--sunset-1);
+    margin-bottom:8px;
+  }
+  .culture-grid div p{color:var(--dust); margin:0; font-size:0.96rem;}
+
+  /* FOOTER */
+  footer{
+    padding:48px 0;
+    border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:16px;
+  }
+  footer .brand{font-size:1rem;}
+  footer p{color:var(--dust); font-size:0.9rem; margin:0;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">SAN <span>ANDREAS</span></div>
+    <div class="navlinks">
+      <a href="#story">Story</a>
+      <a href="#cities">The State</a>
+      <a href="#cast">Cast</a>
+      <a href="#acts">Acts</a>
+      <a href="#culture">Culture</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="sun"></div>
+  <div class="wrap hero-content">
+    <p class="eyebrow">A FAN TRIBUTE · WEST COAST, EARLY '90s</p>
+    <h1>Welcome back<br>to <span class="accent">San Andreas</span></h1>
+    <p class="sub">Five years after leaving Los Santos behind, Carl Johnson comes home for his mother's funeral — and gets pulled straight back into the gang war, the corruption, and the family he never really escaped.</p>
+    <div class="hero-meta">
+      <div><span class="num">3</span><span class="lbl">Cities</span></div>
+      <div><span class="num">1992</span><span class="lbl">Setting</span></div>
+      <div><span class="num">5</span><span class="lbl">Acts of the story</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="strip">
+  <div class="track">
+    <span>GROVE STREET</span>LOS SANTOS<span>•</span>SAN FIERRO<span>•</span>LAS VENTURAS<span>•</span>GROVE STREET<span>•</span>LOS SANTOS<span>•</span>SAN FIERRO<span>•</span>LAS VENTURAS<span>•</span>
+  </div>
+</div>
+
+<section id="story" class="wrap">
+  <div class="sec-head">
+    <h2>The Story</h2>
+    <p>A homecoming that turns into a fight to take back a neighborhood, a family, and a state.</p>
+  </div>
+  <div class="story-grid">
+    <div class="story-row">
+      <div class="yr">01</div>
+      <div>
+        <h3>A funeral brings him home</h3>
+        <p>Carl "CJ" Johnson left Los Santos years ago to build a life elsewhere. News of his mother's death pulls him back to Grove Street, where the family he grew up with has scattered and the block he remembers is falling apart.</p>
+      </div>
+    </div>
+    <div class="story-row">
+      <div class="yr">02</div>
+      <div>
+        <h3>Dirty cops, deeper trouble</h3>
+        <p>Before he can even grieve, CJ is shaken down by corrupt police officers who frame him for a crime he didn't commit, forcing him into a string of jobs that keep dragging him further from a clean exit.</p>
+      </div>
+    </div>
+    <div class="story-row">
+      <div class="yr">03</div>
+      <div>
+        <h3>The Families are falling apart</h3>
+        <p>The Grove Street Families, once the toughest crew in Los Santos, are outgunned and outnumbered by rival gangs. Old friendships strain under suspicion, and CJ has to decide who he can actually trust.</p>
+      </div>
+    </div>
+    <div class="story-row">
+      <div class="yr">04</div>
+      <div>
+        <h3>Chasing leads out of the city</h3>
+        <p>The search for answers about his mother's death and his brother's choices sends CJ north to San Fierro and out to the desert glitz of Las Venturas, working with smugglers, gamblers, and old acquaintances along the way.</p>
+      </div>
+    </div>
+    <div class="story-row">
+      <div class="yr">05</div>
+      <div>
+        <h3>Coming back for the block</h3>
+        <p>Every road eventually leads back to Grove Street. What started as one man trying to bury his mother in peace turns into a reckoning with everyone who let the neighborhood rot — including some of his own.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cities" class="culture">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>The State</h2>
+      <p>Three cities, three moods, one long stretch of highway between them.</p>
+    </div>
+  </div>
+  <div class="cities">
+    <div class="city" style="--city-color:#5fa052">
+      <span class="tag">South · gang territory</span>
+      <h3>Los Santos</h3>
+      <p>Sun-bleached blocks, low-riders, and a turf war that never really ended. This is where CJ's story starts and where it keeps pulling him back.</p>
+    </div>
+    <div class="city" style="--city-color:#ff7a3d">
+      <span class="tag">North · fog and industry</span>
+      <h3>San Fierro</h3>
+      <p>Steep hills, dockyards, and garages full of cars waiting to be stripped or souped up. A quieter city, but with its own criminal machinery underneath.</p>
+    </div>
+    <div class="city" style="--city-color:#e94f8c">
+      <span class="tag">Desert · neon and money</span>
+      <h3>Las Venturas</h3>
+      <p>Casinos, showgirls, and fortunes won and lost overnight. Everyone here is working an angle, and CJ has to learn the games fast.</p>
+    </div>
+  </div>
+</section>
+
+<section id="cast" class="wrap">
+  <div class="sec-head">
+    <h2>The Cast</h2>
+    <p>The people CJ can lean on, and the ones he has to watch.</p>
+  </div>
+  <div class="cast">
+    <div class="card">
+      <span class="role">Protagonist</span>
+      <h3>Carl "CJ" Johnson</h3>
+      <p>A man trying to do right by his family in a city that keeps handing him wrong choices. Sharp, loyal, and increasingly worn down by everyone asking favors.</p>
+    </div>
+    <div class="card">
+      <span class="role">Older brother</span>
+      <h3>Sean "Sweet" Johnson</h3>
+      <p>Grove Street's last true believer. Sweet wants the old neighborhood back exactly as it was, even when nobody around him still believes that's possible.</p>
+    </div>
+    <div class="card">
+      <span class="role">Childhood friend</span>
+      <h3>Melvin "Big Smoke" Harris</h3>
+      <p>Easygoing, always hungry, always around — until the choices he's been quietly making start to look like the biggest problem CJ has to solve.</p>
+    </div>
+    <div class="card">
+      <span class="role">Corrupt officer</span>
+      <h3>Officer Frank Tenpenny</h3>
+      <p>A cop who treats the whole city as his personal shakedown. He owns CJ's freedom on paper, and he's not shy about reminding him of it.</p>
+    </div>
+    <div class="card">
+      <span class="role">Cousin</span>
+      <h3>Catalina</h3>
+      <p>A whirlwind CJ meets early on the road — impulsive, dangerous, and impossible to plan around. Working with her rarely goes the way he expects.</p>
+    </div>
+    <div class="card">
+      <span class="role">Mentor figure</span>
+      <h3>The Truth</h3>
+      <p>An aging conspiracy-minded grower out in the countryside, good for a job and an opinion on absolutely everything going on in the state.</p>
+    </div>
+  </div>
+</section>
+
+<section id="acts" class="wrap">
+  <div class="sec-head">
+    <h2>How It Unfolds</h2>
+    <p>The shape of CJ's journey, act by act.</p>
+  </div>
+  <div class="acts">
+    <div class="act">
+      <div class="tag">ACT I</div>
+      <div>
+        <h3>Grove Street</h3>
+        <p>CJ reconnects with what's left of the Families and starts rebuilding a crew from almost nothing, one small job and one recovered block at a time.</p>
+      </div>
+    </div>
+    <div class="act">
+      <div class="tag">ACT II</div>
+      <div>
+        <h3>Countryside &amp; San Fierro</h3>
+        <p>Forced out of the city, CJ picks up new skills and new allies in the hills and in San Fierro's garages, slowly building the resources for a real comeback.</p>
+      </div>
+    </div>
+    <div class="act">
+      <div class="tag">ACT III</div>
+      <div>
+        <h3>Las Venturas</h3>
+        <p>The stakes go up in the desert, where CJ gets tangled in casino heists, mob politics, and a shot at real money — and real leverage.</p>
+      </div>
+    </div>
+    <div class="act">
+      <div class="tag">ACT IV</div>
+      <div>
+        <h3>Return to Los Santos</h3>
+        <p>With the pieces finally in place, CJ turns back toward home to settle old scores and take back the neighborhood, block by block.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="culture" class="culture">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>The Feel of It</h2>
+      <p>What makes this world instantly recognizable.</p>
+    </div>
+    <div class="culture-grid">
+      <div>
+        <h4>The radio</h4>
+        <p>Every drive across the state comes with a soundtrack — West Coast rap, funk, and talk radio hosts arguing about the news of the day.</p>
+      </div>
+      <div>
+        <h4>The lowriders</h4>
+        <p>Hydraulics, custom paint, and a competitive scene built entirely around who can make their car bounce the highest.</p>
+      </div>
+      <div>
+        <h4>The turf</h4>
+        <p>Every block has a color, and every color has a history. Territory isn't just geography — it's identity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="brand">SAN <span style="color:var(--sunset-1)">ANDREAS</span></div>
+  <p>Unofficial fan tribute · original summary and artwork, not affiliated with or endorsed by Rockstar Games</p>
+</footer>
+
+</body>
+</html>
